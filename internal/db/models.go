@@ -13,14 +13,28 @@ const (
 	NONE 	  SpecialCondition = "NONE"
 )
 
+type Role string
+
+const (
+    RoleAdmin  Role = "ADMIN"
+    RoleManager Role = "MANAGER"
+    RoleEmployee Role = "EMPLOYEE"
+)
+
+type User struct {
+    ID       uint   `gorm:"primaryKey"`   
+    Email    string `gorm:"uniqueIndex;not null;unique"`
+    Password string `gorm:"not null"`
+    Role     Role   `gorm:"not null;default:EMPLOYEE"`
+    FullName          string    `gorm:"size:100;not null"`    // Employee's full name
+    Employee Employee `gorm:"foreignKey:UserID"`
+}
 
 type Employee struct {
 	ID            uint      `gorm:"primaryKey"`           // Unique identifier for the employee
-    Name          string    `gorm:"size:100;not null"`    // Employee's full name
     Position      string    `gorm:"size:50;not null"`     // Job position or title
     Salary        float64   `gorm:"not null"`             // Base salary of the employee
     Bonuses       float64   `gorm:"default:0"`            // Any bonuses the employee is eligible for
-    Email         string    `gorm:"size:100;unique"`      // Email address
     TaxID         string    `gorm:"size:50;unique"`       // Tax identification number
     PhoneNumber   string    `gorm:"size:20"`              // Contact phone number
     Address       string    `gorm:"size:255"`             // Physical address
@@ -29,6 +43,7 @@ type Employee struct {
     DateOfJoining *time.Time                              // Date the employee joined the organization
     CreatedAt     time.Time                              // Timestamp for when the record was created
     UpdatedAt     time.Time
+    UserID        uint
 }
 
 type Department struct {
