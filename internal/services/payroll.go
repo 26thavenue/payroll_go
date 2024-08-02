@@ -1,10 +1,8 @@
 package services 
 
-type SpecialCondition string
-
-const (
-    LEAVE     SpecialCondition = "LEAVE"
-    SICK      SpecialCondition = "SICK"
-    EMERGENCY SpecialCondition = "EMERGENCY"
+import (
+	_"github.com/26thavenue/payroll_go/internal/db"
 )
+
+
 
