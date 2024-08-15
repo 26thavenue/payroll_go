@@ -9,7 +9,7 @@ import (
 	"github.com/26thavenue/payroll_go/internal/config"
 )
 
-const SECRET_KEY = config.JWT_SECRET
+var SECRET_KEY = config.JWT_SECRET
 
 func JWTAuthentication() fiber.Handler {
     return jwtware.New(jwtware.Config{
@@ -23,11 +23,39 @@ func JWTAuthentication() fiber.Handler {
 }
 
 func ExtractUserFromToken(c *fiber.Ctx) (*db.User, error) {
-    user := c.Locals("user").(*jwt.Token)
-    claims := user.Claims.(jwt.MapClaims)
+    user, ok := c.Locals("user").(*jwt.Token)
+
+    if !ok {
+        return nil, ErrNoUserInContext
+    }
+    claims, ok := user.Claims.(jwt.MapClaims)
+
+    if !ok {
+        return nil, ErrInvalidTokenClaims
+    }
+
+     idClaim, ok := claims["id"]
+    if !ok {
+        return nil, ErrMissingIDClaim
+    }
+    idFloat, ok := idClaim.(float64)
+    if !ok {
+        return nil, ErrInvalidIDType
+    }
+
+    roleClaim, ok := claims["role"]
+    if !ok {
+        return nil, ErrMissingRoleClaim
+    }
+    
+    roleString, ok := roleClaim.(string)
+    if !ok {
+        return nil, ErrInvalidRoleType
+    }
+
     
     return &db.User{
-        ID:   uint(claims["id"].(float64)),
-        Role: db.Role(claims["role"].(string)),
+        ID:   uint(idFloat),
+        Role: db.Role(roleString),
     }, nil
 }

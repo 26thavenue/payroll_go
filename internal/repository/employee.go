@@ -27,7 +27,7 @@ func (r *GormEmployeeRepository) CreateEmployee(employee *Employee) error {
 
 func (r *GormEmployeeRepository) GetEmployeeByID(id uint) (*Employee, error) {
     var employee Employee
-    err := r.db.First(&employee, id).Error
+    err := r.db.First(&employee, id).Error //Why not find
     return &employee, err
 }
 
