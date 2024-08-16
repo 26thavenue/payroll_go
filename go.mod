@@ -4,6 +4,7 @@ go 1.21.1
 
 require (
 	github.com/andybalholm/brotli v1.0.5 // indirect
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
 	github.com/gofiber/fiber/v2 v2.52.5 // indirect
 	github.com/gofiber/jwt/v3 v3.3.10 // indirect
 	github.com/golang-jwt/jwt/v4 v4.5.0 // indirect

@@ -2,7 +2,6 @@ package services
 
 import (
 	"github.com/26thavenue/payroll_go/internal/db"
-	_ "github.com/26thavenue/payroll_go/internal/db"
 	"github.com/26thavenue/payroll_go/internal/repository"
 )
 
