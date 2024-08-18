@@ -22,8 +22,8 @@ func (s *PayrollService)GetPayrollById(id uint) (*db.Payroll, error){
 }
 
 
-func (s *PayrollService)ListPayroll()([]db.Payroll, error){
-	return s.payrollRepo.ListPayroll()
+func (s *PayrollService)ListPayroll(limit,offset int)([]*db.Payroll, error){
+	return s.payrollRepo.ListPayroll(limit,offset)
 }
 
 func (s *PayrollService)UpdatePayroll(payroll db.Payroll) error{

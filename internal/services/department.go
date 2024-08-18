@@ -22,8 +22,8 @@ func (s *DepartmentService)GetByID(id uint) (*db.Department, error){
 }
 
 
-func (s *DepartmentService)ListDepartments()([]db.Department, error){
-	return s.deductionRepo.ListDepartment()
+func (s *DepartmentService)ListDepartments(limit,offset int)([]*db.Department, error){
+	return s.deductionRepo.ListDepartment(limit,offset)
 }
 
 

@@ -26,24 +26,24 @@ type User struct {
     Email    string `gorm:"uniqueIndex;not null;unique"`
     Password string `gorm:"not null"`
     Role     Role   `gorm:"not null;default:EMPLOYEE"`
-    FullName          string    `gorm:"size:100;not null"`    // Employee's full name
+    FullName          string    `gorm:"size:100;not null"`   
     Employee Employee `gorm:"foreignKey:UserID"`
 }
 
 type Employee struct {
-	ID            uint      `gorm:"primaryKey"`           // Unique identifier for the employee
-    Position      string    `gorm:"size:50;not null"`     // Job position or title
-    Salary        float64   `gorm:"not null"`             // Base salary of the employee
-    Bonuses       float64   `gorm:"default:0"`            // Any bonuses the employee is eligible for
-    TaxID         string    `gorm:"size:50;unique"`       // Tax identification number
-    PhoneNumber   string    `gorm:"size:20"`              // Contact phone number
-    Address       string    `gorm:"size:255"`             // Physical address
-   	DepartmentID  uint         // Foreign key to Department
-    Department    *Department   `gorm:"foreignKey:DepartmentID"`             // Department in which the employee works
-    DateOfJoining *time.Time                              // Date the employee joined the organization
-    CreatedAt     time.Time                              // Timestamp for when the record was created
+	ID            uint      `gorm:"primaryKey"`           
+    Position      string    `gorm:"size:50;not null"`    
+    Salary        float64   `gorm:"not null"`             
+    Bonuses       float64   `gorm:"default:0"`            
+    TaxID         string    `gorm:"size:50;unique"`      
+    PhoneNumber   string    `gorm:"size:20"`            
+    Address       string    `gorm:"size:255"`            
+   	DepartmentID  uint        
+    Department    *Department   `gorm:"foreignKey:DepartmentID"`            
+    DateOfJoining *time.Time                             
+    CreatedAt     time.Time                              
     UpdatedAt     time.Time
-    UserID        uint
+    UserID        uint          `gorm:"not null;constraint:OnDelete:CASCADE;"`
 }
 
 type Department struct {
@@ -57,10 +57,10 @@ type Department struct {
 }
 
 type Payroll struct{
-	ID            uint      `gorm:"primaryKey"`           // Unique identifier for the payroll record
-    EmployeeID    uint      `gorm:"not null"`             // Foreign key referencing Employee
-    BasicSalary   float64   `gorm:"not null"`             // Basic salary for the pay period
-    Bonuses       float64   `gorm:"default:0"`            // Total bonuses for the pay period
+	ID            uint      `gorm:"primaryKey"`           
+    EmployeeID    uint      `gorm:"not null"`            
+    BasicSalary   float64   `gorm:"not null"`             
+    Bonuses       float64   `gorm:"default:0"`            
     Deductions    float64   `gorm:"default:0"`            // Total deductions for the pay period
     Tax           float64   `gorm:"default:0"`            // Tax amount for the pay period
     NetSalary     float64   `gorm:"not null"`             // Net salary after deductions

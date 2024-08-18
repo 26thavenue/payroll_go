@@ -22,8 +22,8 @@ func (s *OvertimeService)GetByID(id uint) (*db.Overtime, error){
 }
 
 
-func (s *OvertimeService)ListOvertimes()([]db.Overtime, error){
-	return s.deductionRepo.ListOvertime()
+func (s *OvertimeService)ListOvertimes(limit, offset int)([]*db.Overtime, error){
+	return s.deductionRepo.ListOvertime(limit, offset )
 }
 
 

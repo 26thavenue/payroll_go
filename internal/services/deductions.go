@@ -22,8 +22,8 @@ func (s *DeductionService)GetDeductionsByID(id uint) (*db.Deductions, error){
 }
 
 
-func (s *DeductionService)ListDeductionss()([]db.Deductions, error){
-	return s.deductionRepo.ListDeductions()
+func (s *DeductionService)ListDeductionss(limit,offset int)([]*db.Deductions, error){
+	return s.deductionRepo.ListDeductions(limit,offset)
 }
 
 

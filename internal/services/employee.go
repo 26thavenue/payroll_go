@@ -13,8 +13,8 @@ func NewEmployeeService(employeeRepo repository.EmployeeRepository) *EmployeeSer
 	return &EmployeeService{employeeRepo: employeeRepo}
 }
 
-func (s *EmployeeService) CreateEmployee(employee db.Employee) error{
-	return s.employeeRepo.CreateEmployee(&employee)
+func (s *EmployeeService) CreateEmployee(employee *db.Employee) error{
+	return s.employeeRepo.CreateEmployee(employee)
 }
 
 func (s *EmployeeService)GetEmployeeByID(id uint) (*db.Employee, error){
@@ -22,8 +22,8 @@ func (s *EmployeeService)GetEmployeeByID(id uint) (*db.Employee, error){
 }
 
 
-func (s *EmployeeService)ListEmployees()([]db.Employee, error){
-	return s.employeeRepo.ListEmployees()
+func (s *EmployeeService)ListEmployees(limit,offset int)([]*db.Employee, error){
+	return s.employeeRepo.ListEmployees(limit,offset )
 }
 
 func (s *EmployeeService)UpdateEmployee(employee db.Employee) error{

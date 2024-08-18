@@ -11,7 +11,7 @@ type PayrollRepository interface {
 	CreatePayroll(payroll *Payroll) error
 	GetPayrollById(id uint) (*Payroll, error)
 	UpdatePayroll(payroll *Payroll) error
-	ListPayroll()([]Payroll, error)
+	ListPayroll(limit, offset int)([]*db.Payroll, error)
 	DeletePayroll(id uint) error
 }
 
@@ -29,7 +29,12 @@ func (r *GormPayrollRepository) GetPayrollById(id uint) (*Payroll, error) {
     return &payroll, err
 }
 
-// func (r *GormPayrollRepository) ListPayroll ([]Payroll, error){
-// 	err := r.db.Find(&payroll)
-// }
+func (r *GormPayrollRepository) ListPayroll(limit, offset int) ([]*db.Payroll, error) {
+	var payrolls []*db.Payroll
+	err := r.db.Limit(limit).Offset(offset).Find(&payrolls).Error
+	return payrolls, err
+}
 
+func (r *GormPayrollRepository)DeletePayroll(id uint) error{
+	return r.db.Delete(&db.Payroll{}, id).Error
+}

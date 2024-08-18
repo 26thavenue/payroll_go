@@ -13,7 +13,7 @@ type EmployeeRepository interface {
     GetEmployeeByID(id uint) (*Employee, error)
     UpdateEmployee(employee *Employee) error
     DeleteEmployee(id uint) error
-    ListEmployees() ([]Employee, error)
+    ListEmployees(limit,offset int) ([]*db.Employee, error)
 }
 
 // Implement the interface for a GORM-based repository
@@ -21,7 +21,7 @@ type GormEmployeeRepository struct {
     db *gorm.DB
 }
 
-func (r *GormEmployeeRepository) CreateEmployee(employee *Employee) error {
+func (r *GormEmployeeRepository) CreateEmployee(employee *db.Employee) error {
     return r.db.Create(employee).Error
 }
 
@@ -31,4 +31,16 @@ func (r *GormEmployeeRepository) GetEmployeeByID(id uint) (*Employee, error) {
     return &employee, err
 }
 
+func(r *GormEmployeeRepository)ListEmployees(limit,offset int)([]*db.Employee, error){
+    var employees []*db.Employee
+
+    err := r.db.Limit(limit).Offset(offset).Find(&employees).Error
+
+    return employees, err
+}
+
+
+func (r *GormPayrollRepository)DeleteEmployee(id uint) error{
+	return r.db.Delete(&db.Employee{}, id).Error
+}
 
