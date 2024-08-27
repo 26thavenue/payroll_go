@@ -1,16 +1,28 @@
 package repositories
 
 import (
-	"github.com/26thavenue/payroll_go/models"
 	"context"
+
+	"github.com/26thavenue/payroll_go/models"
+	"gorm.io/gorm"
 )
 
 type PayrollRepository struct {
-	db any
+	db *gorm.DB
 }
 
 func (r *PayrollRepository)GetAll (ctx context.Context)([]*models.Payroll, error) {
-	return nil, nil
+
+	payrolls := []*models.Payroll{}
+
+	res := r.db.Model(&models.Payroll{}).Find(&payrolls)
+
+	if res.Error !=nil{
+		return nil, res.Error
+	}
+
+	
+	return payrolls, nil
 }
 
 func (r *PayrollRepository)GetOne (ctx context.Context, payrollId string)(*models.Payroll, error) {
@@ -26,7 +38,7 @@ func (r *PayrollRepository)DeletePayroll (ctx context.Context, payrollId string)
 }
 
 
-func NewPayrollRepository(db any) models.PayrollRepository{
+func NewPayrollRepository(db *gorm.DB) models.PayrollRepository{
 	return &PayrollRepository{
 		db:db,
 	}
